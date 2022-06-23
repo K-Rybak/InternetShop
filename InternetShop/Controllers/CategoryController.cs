@@ -21,5 +21,20 @@ namespace InternetShop.Controllers
             IEnumerable<Category> categoryList = _db.Category;
             return View(categoryList);
         }
+
+        //GET
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category value)
+        {
+            _db.Category.Add(value);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
