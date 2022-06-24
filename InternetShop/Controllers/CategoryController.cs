@@ -32,9 +32,14 @@ namespace InternetShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category value)
         {
-            _db.Category.Add(value);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.Category.Add(value);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(value);
         }
     }
 }
