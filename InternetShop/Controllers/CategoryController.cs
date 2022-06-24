@@ -71,5 +71,31 @@ namespace InternetShop.Controllers
 
             return View(value);
         }
+
+        //GET
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id <= 0)
+            {
+                return NotFound();
+            }
+
+            var category = _db.Category.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(Category value)
+        {
+                _db.Category.Remove(value);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+        }
     }
 }
