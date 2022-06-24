@@ -25,6 +25,14 @@
                 <tr>
                     <th width="50%">@item.Name</th>
                     <th width="30%">@item.DisplayOrder</th>
+                    <th class="w-75">
+                        <a asp-controller="Category"  asp-route-Id="@item.Id" asp-action="Edit" class="btn btn-primary mx-2">
+                            Редактировать
+                        </a>
+                        <a asp-controller="Category" asp-route-Id="@item.Id" asp-action="Delete" class="btn btn-danger m-2">
+                            Удалить
+                        </a>
+                    </th>
                 </tr>           
             }
         </table>

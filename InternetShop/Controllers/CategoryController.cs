@@ -41,5 +41,35 @@ namespace InternetShop.Controllers
 
             return View(value);
         }
+
+        //GET
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id <= 0){
+                return NotFound();
+            }
+
+            var category = _db.Category.Find(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category value)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Category.Update(value);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(value);
+        }
     }
 }
