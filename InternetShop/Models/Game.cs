@@ -29,7 +29,7 @@ namespace InternetShop.Models
 
         [Display(Name ="Издатель")]
         public int PublisherId { get; set; }
-        [ForeignKey("PublusherId")]
+        [ForeignKey("PublisherId")]
         public virtual Publisher Publisher { get; set; }
     }
 }

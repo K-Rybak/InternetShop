@@ -25,6 +25,9 @@ namespace InternetShop.Controllers
 
         public IActionResult Index()
         {
+            // Возвращает null модели Publisher
+            // IEnumerable<Game> gameList = _db.Game.Include(u => u.Category).Unclude(u => u.Publisher);
+
             IEnumerable<Game> gameList = _db.Game;
 
             foreach (var item in gameList)
@@ -41,6 +44,8 @@ namespace InternetShop.Controllers
 
             return View(homeVM);
         }
+
+
 
         public IActionResult Privacy()
         {
