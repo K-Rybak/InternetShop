@@ -1,6 +1,7 @@
 ﻿using InternetShop.Data;
 using InternetShop.Models;
 using InternetShop.Models.ViewModel;
+using InternetShop.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -38,6 +39,12 @@ namespace InternetShop.Controllers
 
         public IActionResult Details(int id)
         {
+            var shoppingCartList = new List<ShoppingCart>();
+
+            var sessionState = HttpContext.Session.Get<List<ShoppingCart>>(WebConst.SessionCart);
+            if (sessionState != null && sessionState.Count > 0)
+                shoppingCartList = sessionState;
+
             DetailsVM detailsVM = new DetailsVM()
             {
                 Game = _db.Game.Include(u => u.Category).Include(u => u.Publisher)
@@ -45,10 +52,48 @@ namespace InternetShop.Controllers
                 IsExistsInCart = false
             };
 
+            foreach (var item in shoppingCartList)
+            {
+                if (item.GameId == id)
+                {
+                    detailsVM.IsExistsInCart = true;
+                }
+            }
+
             return View(detailsVM);
         }
 
+        [HttpPost, ActionName("Details")]
+        public IActionResult DetailsPost(int id)
+        {
+            var shoppingCartList = new List<ShoppingCart>();
 
+            var sessionState = HttpContext.Session.Get<List<ShoppingCart>>(WebConst.SessionCart);
+            if (sessionState != null && sessionState.Count > 0)
+                shoppingCartList = sessionState;
+
+            shoppingCartList.Add(new ShoppingCart { GameId = id });
+            HttpContext.Session.Set(WebConst.SessionCart, shoppingCartList);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult RemoveFromCart(int id)
+        {
+            var shoppingCartList = new List<ShoppingCart>();
+
+            var sessionState = HttpContext.Session.Get<List<ShoppingCart>>(WebConst.SessionCart);
+            if (sessionState != null && sessionState.Count > 0)
+                shoppingCartList = sessionState;
+
+            var itemToDelete = shoppingCartList.FirstOrDefault(i => i.GameId == id);
+            if (itemToDelete != null)
+            {
+                shoppingCartList.Remove(itemToDelete);
+            }
+
+            HttpContext.Session.Set(WebConst.SessionCart, shoppingCartList);
+            return RedirectToAction(nameof(Index));
+        }
 
         public IActionResult Privacy()
         {

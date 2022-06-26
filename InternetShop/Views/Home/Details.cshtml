@@ -2,6 +2,7 @@
 
 <div class="">
     <form method="post">
+        <input asp-for="@Model.Game.Id" hidden />
         <div class="container backgroundWhite pt-4">
             <div class="card-header bg-dark text-light ml-0 row container" style="border-radius: 0px;">
                 <div class="col-12 col-md-6">
@@ -44,7 +45,7 @@
                         }
                         else
                         {
-                            <button type="submit" class="btn btn-info btn-square form-control btn-lg" style="height:50px;">Добавить в корзину</button>
+                            <button  type="submit" asp-route-id="@Model.Game.Id" class="btn btn-info btn-square form-control btn-lg" style="height:50px;">Добавить в корзину</button>
                         }
                     </div>
                 </div>

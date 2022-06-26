@@ -8,5 +8,6 @@ namespace InternetShop
     public static class WebConst
     {
         public static string ImagePath = @"\Images\games_cover\";
+        public static string SessionCart = "ShoppingCartSession";
     }
 }
