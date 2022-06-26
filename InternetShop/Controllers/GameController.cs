@@ -47,16 +47,7 @@ namespace InternetShop.Controllers
 
         public IActionResult Index()
         {
-            // Возвращает null модели Publisher
-            // IEnumerable<Game> gameList = _db.Game.Include(u => u.Category).Unclude(u => u.Publisher);
-
-            IEnumerable<Game> gameList = _db.Game;
-
-            foreach (var item in gameList)
-            {
-                item.Category = _db.Category.FirstOrDefault(u => u.Id == item.CategoryId);
-                item.Publisher = _db.Publisher.FirstOrDefault(u => u.Id == item.PublisherId);
-            }
+            IEnumerable<Game> gameList = _db.Game.Include(u => u.Category).Include(u => u.Publisher);
 
             return View(gameList);
         }
