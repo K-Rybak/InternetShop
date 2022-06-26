@@ -22,7 +22,7 @@ namespace InternetShop.Controllers
             return View(categoryList);
         }
 
-        //GET
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -42,7 +42,7 @@ namespace InternetShop.Controllers
             return View(value);
         }
 
-        //GET
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id == null || id <= 0){
@@ -72,7 +72,7 @@ namespace InternetShop.Controllers
             return View(value);
         }
 
-        //GET
+        [HttpGet]
         public IActionResult Delete(int? id)
         {
             if (id == null || id <= 0)
@@ -93,9 +93,9 @@ namespace InternetShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Category value)
         {
-                _db.Category.Remove(value);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+            _db.Category.Remove(value);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
