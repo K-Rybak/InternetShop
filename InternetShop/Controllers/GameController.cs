@@ -61,8 +61,7 @@ namespace InternetShop.Controllers
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;
-                string webRootPath = _webHostEnviroment.WebRootPath;
-                string upload = webRootPath + WebConst.ImagePath;
+                string upload = _webHostEnviroment.WebRootPath + WebConst.ImagePath;
                 string fileName = Guid.NewGuid().ToString();
                 string extension = Path.GetExtension(files[0].FileName);
 
@@ -116,12 +115,11 @@ namespace InternetShop.Controllers
             var gameFromDb = _db.Game.AsNoTracking().FirstOrDefault(u => u.Id == gameVM.Game.Id);
             
             var files = HttpContext.Request.Form.Files;
-            string webRootPath = _webHostEnviroment.WebRootPath;
 
             if (files.Count > 0)
             {
 
-                string upload = webRootPath + WebConst.ImagePath;
+                string upload = _webHostEnviroment.WebRootPath + WebConst.ImagePath;
                 string fileName = Guid.NewGuid().ToString();
                 string extension = Path.GetExtension(files[0].FileName);
 
@@ -147,6 +145,44 @@ namespace InternetShop.Controllers
             _db.Game.Update(gameVM.Game);
             _db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            GameVM gameVM = new GameVM()
+            {
+                Game = new Game(),
+                GameSelectList = ReturnCategoryDropDown()
+            };
+
+            gameVM.Game = _db.Game.Find(id);
+            if (gameVM.Game == null)
+            {
+                return NotFound();
+            }
+
+            return View(gameVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(GameVM gameVM)
+        {
+            var gameFromDb = _db.Game.AsNoTracking().FirstOrDefault(u => u.Id == gameVM.Game.Id);
+            string upload = _webHostEnviroment.WebRootPath + WebConst.ImagePath;
+            string oldFile = Path.Combine(upload, gameFromDb.Image);
+
+            if (System.IO.File.Exists(oldFile))
+            {
+                System.IO.File.Delete(oldFile);
+            }
+
+            _db.Remove(gameVM.Game);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+
         }
         
     }
