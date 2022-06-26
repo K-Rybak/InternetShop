@@ -26,5 +26,10 @@ namespace InternetShop.Models
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
+
+        [Display(Name ="Издатель")]
+        public int PublisherId { get; set; }
+        [ForeignKey("PublusherId")]
+        public virtual Publisher Publisher { get; set; }
     }
 }
