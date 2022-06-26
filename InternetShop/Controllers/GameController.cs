@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace InternetShop.Controllers
 {
@@ -24,15 +23,26 @@ namespace InternetShop.Controllers
             _webHostEnviroment = webHostEnvironment;
         }
 
-        private IEnumerable<SelectListItem> ReturnCategoryDropDown()
+        private IEnumerable<SelectListItem> GetCategorySelectList()
         {
-            var categoryDropDown = _db.Category.Select(i => new SelectListItem
+            var categorySelectList = _db.Category.Select(i => new SelectListItem
             {
                 Text = i.Name,
                 Value = i.Id.ToString()
             });
 
-            return categoryDropDown;
+            return categorySelectList;
+        }
+
+        private IEnumerable<SelectListItem> GetPublisherSelectList()
+        {
+            var publisherSelectList = _db.Publisher.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+
+            return publisherSelectList;
         }
 
         public IActionResult Index()
@@ -42,6 +52,7 @@ namespace InternetShop.Controllers
             foreach (var item in gameList)
             {
                 item.Category = _db.Category.FirstOrDefault(u => u.Id == item.CategoryId);
+                item.Publisher = _db.Publisher.FirstOrDefault(u => u.Id == item.PublisherId);
             }
 
             return View(gameList);
@@ -50,7 +61,8 @@ namespace InternetShop.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.CategoryDropDown = ReturnCategoryDropDown();
+            ViewBag.CategoryDropDown = GetCategorySelectList();
+            ViewBag.PublisherDropDown = GetPublisherSelectList();
             return View();
         }
 
@@ -76,7 +88,8 @@ namespace InternetShop.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryDropDown = ReturnCategoryDropDown();
+            ViewBag.CategoryDropDown = GetCategorySelectList();
+            ViewBag.PublisherDropDown = GetPublisherSelectList();
             return View();
         }
 
@@ -86,7 +99,8 @@ namespace InternetShop.Controllers
             GameVM gameVM = new GameVM()
             {
                 Game = new Game(),
-                GameSelectList = ReturnCategoryDropDown()
+                CategorySelectList = GetCategorySelectList(),
+                PublisherSelectList = GetPublisherSelectList()
             };
 
             gameVM.Game = _db.Game.Find(id);
@@ -104,7 +118,8 @@ namespace InternetShop.Controllers
         {
             if (!ModelState.IsValid)
             {
-                gameVM.GameSelectList = ReturnCategoryDropDown();
+                gameVM.CategorySelectList = GetCategorySelectList();
+                gameVM.PublisherSelectList = GetPublisherSelectList();
                 return View(gameVM);
             }
 
@@ -153,7 +168,8 @@ namespace InternetShop.Controllers
             GameVM gameVM = new GameVM()
             {
                 Game = new Game(),
-                GameSelectList = ReturnCategoryDropDown()
+                CategorySelectList = GetCategorySelectList(),
+                PublisherSelectList = GetPublisherSelectList()
             };
 
             gameVM.Game = _db.Game.Find(id);

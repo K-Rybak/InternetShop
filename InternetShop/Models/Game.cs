@@ -18,8 +18,8 @@ namespace InternetShop.Models
         public string Description { get; set; }
         [Display(Name ="Цена")]
         [Required(ErrorMessage = "Поле не должно быть пустым")]
-        [Range(0.01, double.MaxValue, ErrorMessage ="Значение должно быть больше нуля")]
-        public decimal Price { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage ="Значение должно быть больше нуля")]
+        public double Price { get; set; }
         public string Image { get; set; }
         
         [Display(Name = "Жанр")]

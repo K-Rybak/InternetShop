@@ -18,24 +18,28 @@
                 <tr>
                     <th>Название Игры</th>
                     <th>Цена</th>
+                    <th>Жанр</th>
+                    <th>Издатель</th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td width="50%">@item.Name</td>
-                    <td width="30%">@item.Price</td>
-                    <td class="text-center">
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Game" asp-route-Id="@item.Id" asp-action="Edit" class="btn btn-primary mx-2">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <a asp-controller="Game" asp-route-Id="@item.Id" asp-action="Delete" class="btn btn-danger mx-2">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
+        <tr>
+            <td width="30%">@item.Name</td>
+            <td width="10%">@item.Price</td>
+            <td width="20%">@item.Category.Name</td>
+            <td width="20%">@item.Publisher.Name</td>
+            <td class="text-center">
+                <div class="w-75 btn-group" role="group">
+                    <a asp-controller="Game" asp-route-Id="@item.Id" asp-action="Edit" class="btn btn-primary mx-2">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                    <a asp-controller="Game" asp-route-Id="@item.Id" asp-action="Delete" class="btn btn-danger mx-2">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
 
             }
         </table>
