@@ -25,9 +25,17 @@ namespace InternetShop.Controllers
 
         public IActionResult Index()
         {
+            IEnumerable<Game> gameList = _db.Game;
+
+            foreach (var item in gameList)
+            {
+                item.Category = _db.Category.FirstOrDefault(u => u.Id == item.CategoryId);
+                item.Publisher = _db.Publisher.FirstOrDefault(u => u.Id == item.PublisherId);
+            }
+
             HomeVM homeVM = new HomeVM()
             {
-                Games = _db.Game.Include(u => u.Category).Include(u => u.Publisher),
+                Games = gameList,
                 Categories = _db.Category
             };
 
