@@ -9,5 +9,7 @@ namespace InternetShop
     {
         public static string ImagePath = @"\Images\games_cover\";
         public static string SessionCart = "ShoppingCartSession";
+        public static string AdminRole = "Admin";
+        public static string CustomerRole = "Customer";
     }
 }
