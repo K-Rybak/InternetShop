@@ -11,6 +11,8 @@ namespace InternetShop
 {
     public class Program
     {
+
+        //comment
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
